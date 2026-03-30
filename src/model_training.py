@@ -18,6 +18,7 @@ corpus: Corpus = ColumnCorpus(
     test_file='unique_test.txt'
 )
 
+
 label_type = 'label'
 label_dict = corpus.make_label_dictionary(label_type=label_type)
 
