@@ -62,30 +62,5 @@ def create_unique_dataset(list_file_input, file_output, limit_words=100):
     print(f"Finish! SUCCESS: {file_output}\n")
 
 
-#CREATION OF THE UNIQUE FILES FOR TRAINING AND DEV, TO BE USED IN MODEL_TRAINING.PY
-#structured in lists to be easily modified in case we want to add or remove files
-all_train = [
-    'sent_split_data/UD_English-EWT/en_ewt-ud-train.sent_split', 
-    'sent_split_data/UD_English-GUM/en_gum-ud-train.sent_split',
-    'sent_split_data/UD_English-ParTUT/en_partut-ud-train.sent_split',
-    'sent_split_data/UD_Italian-ISDT/it_isdt-ud-train.sent_split',
-    'sent_split_data/UD_Italian-MarkIT/it_markit-ud-train.sent_split',
-    'sent_split_data/UD_Italian-ParTUT/it_partut-ud-train.sent_split',
-    'sent_split_data/UD_Italian-VIT/it_vit-ud-train.sent_split'
-]
-create_unique_dataset(all_train, 'sent_split_data/unique_train.txt')
-
-# 2. DEV FILES 
-all_dev = [
-    'sent_split_data/UD_English-EWT/en_ewt-ud-dev.sent_split',
-    'sent_split_data/UD_English-GUM/en_gum-ud-dev.sent_split',
-    'sent_split_data/UD_English-ParTUT/en_partut-ud-dev.sent_split',
-    'sent_split_data/UD_Italian-ISDT/it_isdt-ud-dev.sent_split',
-    'sent_split_data/UD_Italian-MarkIT/it_markit-ud-dev.sent_split',
-    'sent_split_data/UD_Italian-ParTUT/it_partut-ud-dev.sent_split',
-    'sent_split_data/UD_Italian-VIT/it_vit-ud-dev.sent_split'
-]
-create_unique_dataset(all_dev, 'sent_split_data/unique_dev.txt')
-
 
 

@@ -11,10 +11,8 @@ warnings.filterwarnings("ignore")
 nltk.download('punkt', quiet=True)
 nltk.download('punkt_tab', quiet=True)
 
-# ---------------------------------------------------------
-# FUNZIONE 1: VALUTA IL TUO MODELLO FLAIR
-# ---------------------------------------------------------
-def valuta_flair(file_input, tagger):
+# FUNCTION TO EVALUATE FLAIR-BASED MODEL
+def evaluate_flair(file_input, tagger):
     temp_file = "temp_test_flair.txt"
     
     # Prepariamo il file coi tagli di sicurezza ogni 100 parole
@@ -48,13 +46,8 @@ def valuta_flair(file_input, tagger):
     os.remove(temp_file) # Pulizia
     return result.main_score # Restituisce l'F-Score
 
-# ---------------------------------------------------------
-# FUNZIONE 2: VALUTA NLTK
-# ---------------------------------------------------------
-# ---------------------------------------------------------
-# FUNZIONE 2: VALUTA NLTK (A prova di Deriva dell'Allineamento)
-# ---------------------------------------------------------
-def valuta_nltk(file_input, lingua):
+# FUNCTION TO EVALUATE NLTK
+def evaluate_nltk(file_input, lingua):
     parole_pulite = []
     gold_labels = []
     
@@ -110,14 +103,12 @@ def valuta_nltk(file_input, lingua):
 
     return f1
 
-# ---------------------------------------------------------
-# ESECUZIONE DEL TEST
-# ---------------------------------------------------------
-print("Caricamento del tuo modello Flair...")
-mio_modello = SequenceTagger.load('final_model/best-model.pt')
+#EXECUTION OF TESTS
+print("LOADING OF FLAIR-BASED MODEL...")
+myModel = SequenceTagger.load('final_model/best-model.pt')
 
-# INSERISCI QUI LA LISTA DEI FILE CHE VUOI TESTARE
-file_da_testare = [
+#list of test files
+test_files = [
     ('sent_split_data/UD_English-EWT/en_ewt-ud-test.sent_split', 'en'),
     ('sent_split_data/UD_English-GUM/en_gum-ud-test.sent_split', 'en'),
     ('sent_split_data/UD_English-ParTUT/en_partut-ud-test.sent_split', 'en'),
@@ -126,19 +117,18 @@ file_da_testare = [
     ('sent_split_data/UD_Italian-MarkIT/it_markit-ud-test.sent_split', 'it'),
     ('sent_split_data/UD_Italian-ParTUT/it_partut-ud-test.sent_split', 'it'),
     ('sent_split_data/UD_Italian-VIT/it_vit-ud-test.sent_split', 'it')
-    
 ]
 
 print("\n" + "="*60)
 print(f"{'NOME DEL DATASET':<40} | {'FLAIR':<7} | {'NLTK':<7}")
 print("="*60)
 
-for percorso, lingua in file_da_testare:
+for percorso, lingua in test_files:
     nome_file = os.path.basename(percorso)
     
     try:
-        f_flair = valuta_flair(percorso, mio_modello)
-        f_nltk = valuta_nltk(percorso, lingua)
+        f_flair = evaluate_flair(percorso, myModel)
+        f_nltk = evaluate_nltk(percorso, lingua)
         
         # Scegliamo chi ha vinto
         vincitore = "🏆" if f_flair > f_nltk else " "
