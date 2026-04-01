@@ -39,21 +39,21 @@ def training():
 
     #creation of the neural network, with the embeddings, the label dictionary and the type of label to predict
     print("building the neural network...")
-    tagger: SequenceTagger = SequenceTagger(
-        hidden_size=256,        
-        embeddings=embeddings,
-        tag_dictionary=label_dict,
-        tag_type=label_type,
-        use_crf=True 
+    tagger: SequenceTagger = SequenceTagger(    
+        hidden_size=256,                 #number of neurons in the hidden layer, can be increased(also the number of layers adding rnn_layers= 2 for example)   
+        embeddings=embeddings,           #use embeddings defined above
+        tag_dictionary=label_dict,       #use the label dictionary created above
+        tag_type=label_type,             #type of label to predict
+        use_crf=True                     #use CRF to improve the performance of the model, it helps to understand the dependencies between labels, in this case it helps to understand that after an EOS there is an O and viceversa
     )
 
     print("start training!")
-    trainer: ModelTrainer = ModelTrainer(tagger, corpus)
+    trainer: ModelTrainer = ModelTrainer(tagger, corpus)    #creation of the trainer, with the model and the corpus
 
-    trainer.train(
-        'final_model', 
-        learning_rate=0.1,
-        mini_batch_size=16,
-        max_epochs=30,
-        embeddings_storage_mode='none'
+    trainer.train(                          #creates the final_model after the last epoch and when it finds it, also the best model
+        'final_model',                      #folder where the model will be saved, it will create a folder with the name of the model and save the best and final model inside
+        learning_rate=0.1,                  #learning rate, can be increased but it can cause the model to diverge, it is better to keep it low to avoid this problem
+        mini_batch_size=16,                 #size of the batch, can be increased but it requires more memory, it is better to keep it low to avoid out of memory error
+        max_epochs=30,                      #30 epochs(could also increased)
+        embeddings_storage_mode='none'      #avoids the network to remember values of the embeddings of the previous batches(saves memory)
     )

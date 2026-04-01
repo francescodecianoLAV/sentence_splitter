@@ -22,8 +22,7 @@ def create_unique_dataset(list_file_input, file_output, limit_words=100):
 
             #open the input file to read from, iterate over the lines and split them into words
             with open(file_input, 'r', encoding='utf-8') as f_in:
-                lines = f_in.readlines()
-                for line in lines:
+                for line in f_in:
                     words = line.split()
                     
                     if len(words) == 0:   #if the line is empty, for example at the end of a paragraph,
