@@ -79,13 +79,13 @@ def main():
             precision_nltk = nltk_results['precision']
             recall_nltk = nltk_results['recall']
 
-            winnerF1 = "🏆" if f1_flair > f1_nltk else " "
-            winnerP = "🏆" if precision_flair > precision_nltk else " "
-            winnerR = "🏆" if recall_flair > recall_nltk else " "
+            winnerF1 = "🏆" if f1_flair >= f1_nltk else " "
+            winnerP = "🏆" if precision_flair >= precision_nltk else " "
+            winnerR = "🏆" if recall_flair >= recall_nltk else " "
             
-            print(f"{file_name:<40} | {f1_flair:.4f}{winnerF1}| {f1_nltk:.4f}")
-            print(f"{file_name:<40} | {precision_flair:.4f}{winnerP}| {precision_nltk:.4f}")
-            print(f"{file_name:<40} | {recall_flair:.4f}{winnerR}| {recall_nltk:.4f}")
+            print(f"{file_name:<40} F1| {f1_flair:.4f}{winnerF1}| {f1_nltk:.4f}")
+            print(f"{file_name:<40} PRECISION| {precision_flair:.4f}{winnerP}| {precision_nltk:.4f}")
+            print(f"{file_name:<40} RECALL| {recall_flair:.4f}{winnerR}| {recall_nltk:.4f}")
 
         except Exception as e:
             print(f"{file_name:<40} | ERROR IN TEST: {e}")
