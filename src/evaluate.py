@@ -36,13 +36,14 @@ def evaluate_flair(file_input, tagger):
     #and a mini batch size of 32 not to overload the memory
     #result = tagger.evaluate(corpus.test, gold_label_type='label', mini_batch_size=32)
 
-    for sentence in corpus.test:
+    sentences = [sentence for sentence in corpus.test]   #creates a list of all the sentences
 
+    for sentence in sentences:
         for token in sentence:
             true_label = token.get_label('label').value          #get the gold label so the true label, and convert it to 1 for EOS and 0 for O
             gold_labels.append(1 if true_label == 'EOS' else 0)  #add it to the list of gold labels
 
-        tagger.predict(sentence)   #prediction of the model
+        tagger.predict(sentences, mini_batch_size=32)   #prediction of the model
 
         for token in sentence:
             pred_label = token.get_label(tagger.tag_type).value  #same for the predicted label, get it and convert it to 1 for EOS and 0 for O  
