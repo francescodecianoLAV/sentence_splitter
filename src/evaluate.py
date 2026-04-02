@@ -36,18 +36,35 @@ def evaluate_flair(file_input, tagger):
     #and a mini batch size of 32 not to overload the memory
     #result = tagger.evaluate(corpus.test, gold_label_type='label', mini_batch_size=32)
 
-    sentences = [sentence for sentence in corpus.test]   #creates a list of all the sentences
+    sentences = []   #list to store the sentences in the test set, to be used for prediction with Flair
+    
+    for sentence in corpus.test:    #iterates over the sentences in the test set
+        sentences.append(sentence)   #add the sentence to the list of sentences
+        if len(sentences) == 100:    #limit the number of sentences to 100, to avoid long evaluation time, but it is possible to remove this limit for a more complete evaluation
+            for s in sentences:
+                for token in s:
+                    true_label = token.get_label('label').value          #get the gold label so the true label, and convert it to 1 for EOS and 0 for O
+                    gold_labels.append(1 if true_label == 'EOS' else 0)  #add it to the list of gold labels
 
-    for sentence in sentences:
-        for token in sentence:
-            true_label = token.get_label('label').value          #get the gold label so the true label, and convert it to 1 for EOS and 0 for O
-            gold_labels.append(1 if true_label == 'EOS' else 0)  #add it to the list of gold labels
+            tagger.predict(sentences)   #prediction of the model
 
-        tagger.predict(sentences, mini_batch_size=32)   #prediction of the model
+            for s in sentences:
+                for token in s:
+                    pred_label = token.get_label(tagger.tag_type).value  #same for the predicted label, get it and convert it to 1 for EOS and 0 for O
+                    pred_labels.append(1 if pred_label == 'EOS' else 0)  #add it to the list of predicted labels
 
-        for token in sentence:
-            pred_label = token.get_label(tagger.tag_type).value  #same for the predicted label, get it and convert it to 1 for EOS and 0 for O  
-            pred_labels.append(1 if pred_label == 'EOS' else 0)  #add it to the list of predicted labels
+    if len(sentences) > 0:    #if there are still sentences to evaluate, it evaluates them
+        for s in sentences:
+            for token in s:
+                true_label = token.get_label('label').value
+                gold_labels.append(1 if true_label == 'EOS' else 0)
+
+        tagger.predict(sentences)
+
+        for s in sentences:
+            for token in s:
+                pred_label = token.get_label(tagger.tag_type).value
+                pred_labels.append(1 if pred_label == 'EOS' else 0)
 
     os.remove(temp_file) #removes the temporary file after evaluation
 
