@@ -1,4 +1,5 @@
 # Sentence splitter
+The aim of the project is to create a sentence splitter able to beat NLTK.
 To create the sentence splitter, the library Flair of python has been chosen; its ecosystem is based on Pytorch and it's like a more powerful version of the embeddings.
 Flair reads each character of a sentence, forward and backward, and in the end compare the two analysis of the sentence, becoming able to understand the meaning of a word based on the context and also to recognize out of dictionary words; it makes no difference what language is used(english or italian only cause they are the language of training and dev files).
 
