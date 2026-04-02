@@ -1,7 +1,7 @@
 import os
 
 #the code is built for my PC, so I set the cache root to a specific folder, but it can be changed to any other folder
-os.environ['FLAIR_CACHE_ROOT'] = 'D:/flair_cache' 
+#os.environ['FLAIR_CACHE_ROOT'] = 'D:/flair_cache' 
 
 from flair.data import Corpus
 from flair.datasets import ColumnCorpus
