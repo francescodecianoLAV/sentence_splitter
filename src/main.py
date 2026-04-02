@@ -39,6 +39,11 @@ all_test = [
     ('sent_split_data/UD_Italian-VIT/it_vit-ud-test.sent_split', 'it')
 ]
 
+#list for specific test in Hackathon, 
+#specific_test = [
+#    ('sent_split_data/', 'en'),
+#]
+
 def main():
 
     #check if the reformatted data already exists, if not it create them
@@ -62,7 +67,7 @@ def main():
     print(f"{'NAME OF DATASET':<40} | {'FLAIR':<7} | {'NLTK':<7}")
     print("="*60)
 
-    for path, language in all_test:
+    for path, language in all_test:           #SUBSTITUTE WITH specific_test FOR THE HACKATON
         file_name = os.path.basename(path)    #get the name of the file from the path, to print it in the results table
         
         #get values of F1 score, precision and recall for both Flair and NLTK, with a try except to catch any error
@@ -83,9 +88,11 @@ def main():
             winnerP = "🏆" if precision_flair >= precision_nltk else " "
             winnerR = "🏆" if recall_flair >= recall_nltk else " "
             
-            print(f"{file_name:<40} F1| {f1_flair:.4f}{winnerF1}| {f1_nltk:.4f}")
-            print(f"{file_name:<40} PRECISION| {precision_flair:.4f}{winnerP}| {precision_nltk:.4f}")
-            print(f"{file_name:<40} RECALL| {recall_flair:.4f}{winnerR}| {recall_nltk:.4f}")
+            print(f"{file_name}") 
+            print(f"{'   -> F1-Score':<40} | {f1_flair:.4f} {winnerF1}| {f1_nltk:.4f}")
+            print(f"{'   -> Precision':<40} | {precision_flair:.4f} {winnerP}| {precision_nltk:.4f}")
+            print(f"{'   -> Recall':<40} | {recall_flair:.4f} {winnerR}| {recall_nltk:.4f}")
+            print("-" * 65)
 
         except Exception as e:
             print(f"{file_name:<40} | ERROR IN TEST: {e}")
